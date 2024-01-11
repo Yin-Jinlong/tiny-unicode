@@ -9,6 +9,9 @@
 #define TU_ARG_IN
 #define TU_ARG_IN_OUT
 
+#define INVALID_BUFFER (-1)
+#define BUFFER_TOO_SMALL (-2)
+
 typedef int      tu_index;
 typedef int32_t  tu_count;
 typedef char     u8_char;
@@ -66,12 +69,41 @@ TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_4(
  * @param [out]    utf32   utf32字符串
  * @param [in,out] bufLen  utf32缓冲区长度
  *
- * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回-1，缓冲区太小返回-2
+ * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回INVALID_BUFFER，缓冲区太小返回BUFFER_TOO_SMALL
  */
 TINY_UNICODE_DLL_OUT tu_index tu_utf8_to_utf32(
         TU_ARG_IN     const u8_char *utf8,
         TU_ARG_IN           tu_count utf8Len,
         TU_ARG_OUT          u32_char *utf32,
+        TU_ARG_IN_OUT       tu_count *bufLen
+);
+
+/**
+ * utf32字符转utf8字符
+ * @param c utf32字符
+ * @param buf utf8字符缓冲区
+ *
+ * @return 字符数，成功返回字符数，失败返回0
+ */
+TINY_UNICODE_DLL_OUT int tu_u32c_to_u8c(
+        TU_ARG_IN  u32_char c,
+        TU_ARG_OUT u8_char buf[4]
+);
+
+/**
+ * utf32 to utf8，不包含结尾\0
+ *
+ * @param [in]     utf32    utf32字符串
+ * @param [in]     utf32Len utf32字符串长度
+ * @param [out]    utf8     utf8字符串
+ * @param [in,out] bufLen   utf8缓冲区长度
+ *
+ * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回INVALID_BUFFER，缓冲区太小返回BUFFER_TOO_SMALL
+ */
+TINY_UNICODE_DLL_OUT tu_index tu_utf32_to_utf8(
+        TU_ARG_IN     const u32_char *utf32,
+        TU_ARG_IN           tu_count  utf32Len,
+        TU_ARG_OUT          u8_char  *utf8,
         TU_ARG_IN_OUT       tu_count *bufLen
 );
 

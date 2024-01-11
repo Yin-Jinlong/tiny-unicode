@@ -5,8 +5,10 @@
 #define MASK_3B(c) MASK(c,4)
 #define MASK_2B(c) MASK(c,5)
 
+#define VM 0b111111
+
 #define MB_MASK(c) MASK(c,6)
-#define MBV(c) (c&0b111111)
+#define MBV(c) (c&VM)
 
 #define MH2 0b110
 #define MH3 0b1110
@@ -75,22 +77,22 @@ u32_char tu_u8c_to_u32c_4(u8_char c1, u8_char c2, u8_char c3, u8_char c4) {
 }
 
 inline int tu_get_byte_count(char c1) {
-    if (c1>0)
+    if (c1 > 0)
         return 1;
     int c = 0;
     while (c1 < 0) {
         c++;
-        c1<<= 1;
+        c1 <<= 1;
     }
     return c;
 }
 
 tu_index tu_utf8_to_utf32(const u8_char *utf8, tu_count utf8Len, u32_char *utf32, tu_count *bufLen) {
     if (!utf8 || !utf32 || !bufLen)
-        return -1;
+        return INVALID_BUFFER;
     int bufSize = *bufLen;
     if (bufSize < utf8Len / 3)
-        return -2;
+        return BUFFER_TOO_SMALL;
     int u8I  = 0;
     int u32I = 0;
     while (u8I < utf8Len) {
@@ -99,20 +101,16 @@ tu_index tu_utf8_to_utf32(const u8_char *utf8, tu_count utf8Len, u32_char *utf32
         int      byteCount = tu_get_byte_count(c1);
         switch (byteCount) {
             case 1:
-                r = tu_u8c_to_u32c_1(c1);
-                if (r)
+                if ((r = tu_u8c_to_u32c_1(c1)))
                     break;
             case 2:
-                r = tu_u8c_to_u32c_2(c1, utf8[u8I + 1]);
-                if (r)
+                if ((r = tu_u8c_to_u32c_2(c1, utf8[u8I + 1])))
                     break;
             case 3:
-                r = tu_u8c_to_u32c_3(c1, utf8[u8I + 1], utf8[u8I + 2]);
-                if (r)
+                if ((r = tu_u8c_to_u32c_3(c1, utf8[u8I + 1], utf8[u8I + 2])))
                     break;
             case 4:
-                r = tu_u8c_to_u32c_4(c1, utf8[u8I + 1], utf8[u8I + 2], utf8[u8I + 3]);
-                if (r)
+                if ((r = tu_u8c_to_u32c_4(c1, utf8[u8I + 1], utf8[u8I + 2], utf8[u8I + 3])))
                     break;
             default:
                 return u8I;
@@ -127,4 +125,53 @@ tu_index tu_utf8_to_utf32(const u8_char *utf8, tu_count utf8Len, u32_char *utf32
     utf32[u32I] = 0;
     *bufLen = u32I;
     return u8I;
+}
+
+int tu_u32c_to_u8c(u32_char c, u8_char buf[4]) {
+    if (c > 0x10FFFF || c <= 0 || (c >= 0x800 && c <= 0xD7FF))
+        return 0;
+    if (c <= 0x7F) {
+        buf[0] = (u8_char) c;
+        return 1;
+    }
+    if (c <= 0x800) {
+        buf[0] = (u8_char) ((c >> 5) | 0b11000000);
+        buf[1] = (u8_char) ((c & VM) | 0b10000000);
+        return 2;
+    }
+    if (c <= 0xFFFF) {
+        buf[0] = (u8_char) ((c >> 12) | 0b11100000);
+        buf[1] = (u8_char) (((c >> 6) & VM) | 0b10000000);
+        buf[2] = (u8_char) ((c & VM) | 0b10000000);
+        return 3;
+    }
+    buf[0] = (u8_char) ((c >> 18) | 0b11110000);
+    buf[1] = (u8_char) (((c >> 12) & VM) | 0b10000000);
+    buf[2] = (u8_char) (((c >> 6) & VM) | 0b10000000);
+    buf[3] = (u8_char) ((c & VM) | 0b10000000);
+    return 4;
+}
+
+tu_index tu_utf32_to_utf8(const u32_char *utf32, tu_count utf32Len, u8_char *utf8, tu_count *bufLen) {
+    if (!utf32 || !utf8 || !bufLen)
+        return INVALID_BUFFER;
+    int bufSize = *bufLen;
+    if (bufSize < utf32Len)
+        return BUFFER_TOO_SMALL;
+    int     u32I = 0;
+    int     u8I  = 0;
+    u8_char u32s[4];
+    while (u32I < utf32Len) {
+        u32_char c = utf32[u32I];
+        int      l = tu_u32c_to_u8c(c, u32s);
+        if (!l)
+            return u32I;
+        if (u8I + l > bufSize)
+            return BUFFER_TOO_SMALL;
+        for (int i = 0; i < l; ++i) {
+            utf8[u8I + i] = u32s[i];
+        }
+        u8I += l;
+    }
+    return u32I;
 }
