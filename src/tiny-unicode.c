@@ -118,24 +118,24 @@ tu_index tu_utf8_to_utf32(const u8_char *utf8, tu_count utf8Len, u32_char *utf32
         utf32[u32I++] = r;
         u8I += byteCount;
         if (u32I >= bufSize)
-            return -2;
+            return BUFFER_TOO_SMALL;
     }
     if (u32I >= bufSize)
-        return -2;
+        return BUFFER_TOO_SMALL;
     utf32[u32I] = 0;
     *bufLen = u32I;
     return u8I;
 }
 
 int tu_u32c_to_u8c(u32_char c, u8_char buf[4]) {
-    if (c > 0x10FFFF || c <= 0 || (c >= 0x800 && c <= 0xD7FF))
+    if (c > 0x10FFFF || c <= 0 || (c >= 0xD800 && c <= 0xDFFF))
         return 0;
     if (c <= 0x7F) {
         buf[0] = (u8_char) c;
         return 1;
     }
     if (c <= 0x800) {
-        buf[0] = (u8_char) ((c >> 5) | 0b11000000);
+        buf[0] = (u8_char) ((c >> 6) | 0b11000000);
         buf[1] = (u8_char) ((c & VM) | 0b10000000);
         return 2;
     }
@@ -172,6 +172,11 @@ tu_index tu_utf32_to_utf8(const u32_char *utf32, tu_count utf32Len, u8_char *utf
             utf8[u8I + i] = u32s[i];
         }
         u8I += l;
+        u32I++;
     }
+    if (u8I >= bufSize)
+        return BUFFER_TOO_SMALL;
+    utf8[u8I] = 0;
+    *bufLen = u8I;
     return u32I;
 }

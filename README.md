@@ -23,3 +23,4 @@
 ## 支持
 
 - utf8-> utf32(BE)
+- utf32(BE)-> utf8
