@@ -17,13 +17,16 @@ typedef int32_t  tu_count;
 typedef char     u8_char;
 typedef char16_t u16_char;
 typedef char32_t u32_char;
+#if defined(__cplusplus)
+extern "C" {
+#endif
 
 /**
  * utf8单字节字符转utf32字符
  * @param c utf8字符
  * @return utf32字符，0转换错误
  */
-TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_1(TU_ARG_IN u8_char c);
+extern TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_1(TU_ARG_IN u8_char c);
 
 /**
  * utf8双字节字符转utf32字符
@@ -106,5 +109,7 @@ TINY_UNICODE_DLL_OUT tu_index tu_utf32_to_utf8(
         TU_ARG_OUT          u8_char  *utf8,
         TU_ARG_IN_OUT       tu_count *bufLen
 );
-
+#if defined(__cplusplus)
+}
+#endif
 #endif //TINY_UNICODE_TINY_UNICODE_H
