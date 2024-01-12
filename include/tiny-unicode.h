@@ -22,11 +22,25 @@ extern "C" {
 #endif
 
 /**
+* 判断是否是全角字符
+* @param c 字符
+* @return 是否是全角字符
+*/
+TINY_UNICODE_DLL_OUT int tu_is_full_width_char(char32_t c);
+
+/**
+ * 判断是否是空白字符
+ * @param c 字符
+ * @return 是否是空白字符
+ */
+//TINY_UNICODE_DLL_OUT int tu_is_white_space(char32_t c);
+
+/**
  * utf8单字节字符转utf32字符
  * @param c utf8字符
  * @return utf32字符，0转换错误
  */
-extern TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_1(TU_ARG_IN u8_char c);
+TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_1(TU_ARG_IN u8_char c);
 
 /**
  * utf8双字节字符转utf32字符
