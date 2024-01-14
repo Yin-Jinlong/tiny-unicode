@@ -134,7 +134,7 @@ inline int tu_get_byte_count(char c1) {
     return c;
 }
 
-tu_index tu_utf8_to_utf32(const u8_char *utf8, tu_count utf8Len, u32_char *utf32, tu_count *bufLen) {
+int tu_utf8_to_utf32(const u8_char *utf8, tu_count utf8Len, u32_char *utf32, tu_count *bufLen) {
     if (!utf8 || !utf32 || !bufLen)
         return INVALID_BUFFER;
     int bufSize = *bufLen;
@@ -199,7 +199,7 @@ int tu_u32c_to_u8c(u32_char c, u8_char buf[4]) {
     return 4;
 }
 
-tu_index tu_utf32_to_utf8(const u32_char *utf32, tu_count utf32Len, u8_char *utf8, tu_count *bufLen) {
+int tu_utf32_to_utf8(const u32_char *utf32, tu_count utf32Len, u8_char *utf8, tu_count *bufLen) {
     if (!utf32 || !utf8 || !bufLen)
         return INVALID_BUFFER;
     int bufSize = *bufLen;

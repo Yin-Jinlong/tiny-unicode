@@ -12,7 +12,6 @@
 #define INVALID_BUFFER (-1)
 #define BUFFER_TOO_SMALL (-2)
 
-typedef int      tu_index;
 typedef int32_t  tu_count;
 typedef char     u8_char;
 typedef char16_t u16_char;
@@ -23,16 +22,16 @@ extern "C" {
 
 /**
 * 判断是否是全角字符
-* @param c 字符
+* @param c UTF-32字符
 * @return 是否是全角字符
 */
 TINY_UNICODE_DLL_OUT int tu_is_full_width_char(char32_t c);
 
-/**
- * 判断是否是空白字符
- * @param c 字符
- * @return 是否是空白字符
- */
+///**
+// * 判断是否是空白字符
+// * @param c 字符
+// * @return 是否是空白字符
+// */
 //TINY_UNICODE_DLL_OUT int tu_is_white_space(char32_t c);
 
 /**
@@ -88,7 +87,7 @@ TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_4(
  *
  * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回INVALID_BUFFER，缓冲区太小返回BUFFER_TOO_SMALL
  */
-TINY_UNICODE_DLL_OUT tu_index tu_utf8_to_utf32(
+TINY_UNICODE_DLL_OUT int tu_utf8_to_utf32(
         TU_ARG_IN     const u8_char *utf8,
         TU_ARG_IN           tu_count utf8Len,
         TU_ARG_OUT          u32_char *utf32,
@@ -117,7 +116,7 @@ TINY_UNICODE_DLL_OUT int tu_u32c_to_u8c(
  *
  * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回INVALID_BUFFER，缓冲区太小返回BUFFER_TOO_SMALL
  */
-TINY_UNICODE_DLL_OUT tu_index tu_utf32_to_utf8(
+TINY_UNICODE_DLL_OUT int tu_utf32_to_utf8(
         TU_ARG_IN     const u32_char *utf32,
         TU_ARG_IN           tu_count  utf32Len,
         TU_ARG_OUT          u8_char  *utf8,
@@ -126,4 +125,9 @@ TINY_UNICODE_DLL_OUT tu_index tu_utf32_to_utf8(
 #if defined(__cplusplus)
 }
 #endif
+
+#undef TINY_UNICODE_DLL_OUT
+#undef TU_ARG_OUT
+#undef TU_ARG_IN
+#undef TU_ARG_IN_OUT
 #endif //TINY_UNICODE_TINY_UNICODE_H
