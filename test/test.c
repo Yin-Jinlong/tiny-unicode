@@ -4,28 +4,32 @@
 #define ASSERT_EQ(a, b)  fc += assert_eq(a,b)
 
 int assert_eq(u32_char a, u32_char b) {
-    int r = (a == b);
-    if (r)
+    if (a == b)
         return 0;
-    printf("assert_eq failed: %x!= %x\n", a, b);
+    printf("assert_eq failed: %x != %x\n", a, b);
     return 1;
 }
 
 static int fc = 0;
 
 void test_u8_to_u32() {
-    ASSERT_EQ(tu_u8c_to_u32c_1('a'), 'a');
+    int bc=0;
+    ASSERT_EQ(tu_u8c_to_u32c("a",&bc), 'a');
+    ASSERT_EQ(bc, 1);
     char u2[2] = "¥";
-    ASSERT_EQ(tu_u8c_to_u32c_2(u2[0], u2[1]), 0xA5);
+    ASSERT_EQ(tu_u8c_to_u32c(u2,&bc), 0xA5);
+    ASSERT_EQ(bc, 2);
     char u3[3] = "爱";
-    ASSERT_EQ(tu_u8c_to_u32c_3(u3[0], u3[1], u3[2]), 0x7231);
+    ASSERT_EQ(tu_u8c_to_u32c(u3,&bc), 0x7231);
+    ASSERT_EQ(bc, 3);
     char u4[4] = "\U0001D320";
-    ASSERT_EQ(tu_u8c_to_u32c_4(u4[0], u4[1], u4[2], u4[3]), 0x1D320);
+    ASSERT_EQ(tu_u8c_to_u32c(u4,&bc), 0x1D320);
+    ASSERT_EQ(bc, 4);
 
-    char     ss[13] = "V©中国\U0001D356";
+    char     ss[14] = "V©中国\U0001D356\0";
     u32_char u32[6];
     int      len    = 6;
-    tu_index ei     = tu_utf8_to_utf32(ss, 13, u32, &len);
+    int      ei     = tu_utf8_to_utf32(ss, 13, u32, &len);
     ASSERT_EQ(ei, 13);
     ASSERT_EQ(len, 5);
     ASSERT_EQ(u32[0], 'V');
@@ -65,7 +69,7 @@ void test_u32_to_u8() {
     u32_char u32[5] = {'V', 0xA9, 0x4E2D, 0x56FD, 0x1D356};
     u8_char  u8[50];
     len = 50;
-    tu_index ei = tu_utf32_to_utf8(u32, 5, u8, &len);
+    int ei = tu_utf32_to_utf8(u32, 5, u8, &len);
     ASSERT_EQ(ei, 5);
     ASSERT_EQ(len, 13);
     for (int i = 0; i < 13; ++i) {

@@ -36,55 +36,13 @@ TINY_UNICODE_DLL_OUT int tu_is_full_width_char(char32_t c);
  */
 TINY_UNICODE_DLL_OUT int tu_is_emoji(char32_t c);
 
-///**
-// * 判断是否是空白字符
-// * @param c 字符
-// * @return 是否是空白字符
-// */
-//TINY_UNICODE_DLL_OUT int tu_is_white_space(char32_t c);
-
 /**
  * utf8单字节字符转utf32字符
- * @param c utf8字符
+ * @param [in] c utf8字符（长度必须>=4，可不包含\0）
+ * @param [out] byteCount 字符长度
  * @return utf32字符，0转换错误
  */
-TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_1(TU_ARG_IN u8_char c);
-
-/**
- * utf8双字节字符转utf32字符
- * @param c1 utf8字符1
- * @param c2 utf8字符2
- * @return utf32字符，0转换错误
- */
-TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_2(TU_ARG_IN u8_char c1, TU_ARG_IN u8_char c2);
-
-/**
- * utf8三字节字符转utf32字符
- * @param c1 utf8字符1
- * @param c2 utf8字符2
- * @param c3 utf8字符3
- * @return utf32字符，0转换错误
- */
-TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_3(
-        TU_ARG_IN u8_char c1,
-        TU_ARG_IN u8_char c2,
-        TU_ARG_IN u8_char c3
-);
-
-/**
- * utf8四字节字符转utf32字符
- * @param c1 utf8字符1
- * @param c2 utf8字符2
- * @param c3 utf8字符3
- * @param c4 utf8字符4
- * @return utf32字符，0转换错误
- */
-TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_4(
-        TU_ARG_IN u8_char c1,
-        TU_ARG_IN u8_char c2,
-        TU_ARG_IN u8_char c3,
-        TU_ARG_IN u8_char c4
-);
+TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c(TU_ARG_IN const u8_char c[4], TU_ARG_OUT tu_count *byteCount);
 
 /**
  * utf8 to utf32，不包含结尾\0
@@ -97,22 +55,22 @@ TINY_UNICODE_DLL_OUT u32_char tu_u8c_to_u32c_4(
  * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回INVALID_BUFFER，缓冲区太小返回BUFFER_TOO_SMALL
  */
 TINY_UNICODE_DLL_OUT int tu_utf8_to_utf32(
-        TU_ARG_IN     const u8_char *utf8,
-        TU_ARG_IN           tu_count utf8Len,
-        TU_ARG_OUT          u32_char *utf32,
-        TU_ARG_IN_OUT       tu_count *bufLen
+    TU_ARG_IN     const u8_char *utf8,
+    TU_ARG_IN           tu_count utf8Len,
+    TU_ARG_OUT          u32_char *utf32,
+    TU_ARG_IN_OUT       tu_count *bufLen
 );
 
 /**
  * utf32字符转utf8字符
- * @param c utf32字符
- * @param buf utf8字符缓冲区
+ * @param [in] c utf32字符
+ * @param [in] buf utf8字符缓冲区
  *
  * @return 字符数，成功返回字符数，失败返回0
  */
 TINY_UNICODE_DLL_OUT int tu_u32c_to_u8c(
-        TU_ARG_IN  u32_char c,
-        TU_ARG_OUT u8_char buf[4]
+    TU_ARG_IN  u32_char c,
+    TU_ARG_OUT u8_char buf[4]
 );
 
 /**
@@ -126,11 +84,12 @@ TINY_UNICODE_DLL_OUT int tu_u32c_to_u8c(
  * @return 已转换字符数，成功返回字符串长度，缓冲区NULL返回INVALID_BUFFER，缓冲区太小返回BUFFER_TOO_SMALL
  */
 TINY_UNICODE_DLL_OUT int tu_utf32_to_utf8(
-        TU_ARG_IN     const u32_char *utf32,
-        TU_ARG_IN           tu_count  utf32Len,
-        TU_ARG_OUT          u8_char  *utf8,
-        TU_ARG_IN_OUT       tu_count *bufLen
+    TU_ARG_IN     const u32_char *utf32,
+    TU_ARG_IN           tu_count utf32Len,
+    TU_ARG_OUT          u8_char *utf8,
+    TU_ARG_IN_OUT       tu_count *bufLen
 );
+
 #if defined(__cplusplus)
 }
 #endif
