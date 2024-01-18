@@ -10,8 +10,8 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/Yin-Jinlong/tiny-unicode)
 
 [//]: # (统计)
-![Total Lines](https://img.shields.io/badge/total_lines-1,000-9a9a9a)
-![Source Lines](https://img.shields.io/badge/source_lines-226-9a9a9a)
+![Total Lines](https://img.shields.io/badge/total_lines-1,019-9a9a9a)
+![Source Lines](https://img.shields.io/badge/source_lines-237-9a9a9a)
 
 [//]: # (活动)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/Yin-Jinlong/tiny-unicode)

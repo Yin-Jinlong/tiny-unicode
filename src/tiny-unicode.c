@@ -72,6 +72,17 @@ int tu_is_emoji(char32_t c) {
 
 #undef BETWEEN
 
+int tu_get_byte_count(u8_char c) {
+    if (c > 0)
+        return 1;
+    int bc = 0;
+    while (c < 0) {
+        bc++;
+        c <<= 1;
+    }
+    return bc;
+}
+
 u32_char tu_u8c_to_u32c(const u8_char c[4], tu_count *byteCount) {
     char c0 = c[0];
     if (c[0] > 0) {
@@ -145,13 +156,13 @@ int tu_u32c_to_u8c(u32_char c, u8_char buf[4]) {
     }
     if (c <= 0xFFFF) {
         buf[0] = (u8_char) ((c >> 12) | 0b11100000);
-        buf[1] = (u8_char)(((c >> 6) & VM) | VHM);
+        buf[1] = (u8_char) (((c >> 6) & VM) | VHM);
         buf[2] = (u8_char) ((c & VM) | VHM);
         return 3;
     }
     buf[0] = (u8_char) ((c >> 18) | 0b11110000);
-    buf[1] = (u8_char)(((c >> 12) & VM) | VHM);
-    buf[2] = (u8_char)(((c >> 6) & VM) | VHM);
+    buf[1] = (u8_char) (((c >> 12) & VM) | VHM);
+    buf[2] = (u8_char) (((c >> 6) & VM) | VHM);
     buf[3] = (u8_char) ((c & VM) | VHM);
     return 4;
 }

@@ -37,6 +37,14 @@ TINY_UNICODE_DLL_OUT int tu_is_full_width_char(char32_t c);
 TINY_UNICODE_DLL_OUT int tu_is_emoji(char32_t c);
 
 /**
+ * 获取utf8字符长度
+ *
+ * @param c utf8字符
+ * @return utf8字符长度
+*/
+TINY_UNICODE_DLL_OUT int tu_get_byte_count(u8_char c);
+
+/**
  * utf8单字节字符转utf32字符
  * @param [in] c utf8字符（长度必须>=4，可不包含\0）
  * @param [out] byteCount 字符长度
