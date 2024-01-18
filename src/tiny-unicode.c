@@ -19,45 +19,62 @@
 
 int tu_is_full_width_char(char32_t c) {
     // 不完全符合，还可能有预留和空白
-    return  // 韩文字母 https://www.unicode.org/charts/PDF/U1100.pdf
-            BETWEEN(1100, 11FF) ||
-            // 杂项 https://www.unicode.org/charts/PDF/U2600.pdf
-            // 装饰 https://www.unicode.org/charts/PDF/U2700.pdf
-            BETWEEN(2600, 27BF) ||
-            // 盲文符号 https://www.unicode.org/charts/PDF/U2800.pdf
-            BETWEEN(2800, 28FF) ||
-            // CJK 偏旁部首 https://www.unicode.org/charts/PDF/U2E80.pdf
-            // 康熙部首     https://www.unicode.org/charts/PDF/U2F00.pdf
-            BETWEEN(2E80, 2FDF) ||
-            // 汉字结构描述 https://www.unicode.org/charts/PDF/U2FF0.pdf
-            // CJK 标点   http://www.unicode.org/charts/PDF/U3000.pdf
-            // 平假       https://www.unicode.org/charts/PDF/U3040.pdf
-            // 片假       https://www.unicode.org/charts/PDF/U30A0.pdf
-            // 汉字注音符号 https://www.unicode.org/charts/PDF/U3100.pdf
-            // 韩文兼容字母 https://www.unicode.org/charts/PDF/U3130.pdf
-            BETWEEN(2FF0, 318E) ||
-            // 汉字注音符号扩展 https://www.unicode.org/charts/PDF/U31A0.pdf
-            // CJK 笔画      http://www.unicode.org/charts/PDF/U31C0.pdf
-            // 日文片假扩展    https://www.unicode.org/charts/PDF/U31F0.pdf
-            // CJK 字母月份   https://www.unicode.org/charts/PDF/U3200.pdf
-            // 特殊符号       https://www.unicode.org/charts/PDF/U3300.pdf
-            BETWEEN(31A0, 33FF) ||
-            // 易经符号 https://www.unicode.org/charts/PDF/U4DC0.pdf
-            // CJK https://www.unicode.org/charts/PDF/U4E00.pdf
-            BETWEEN(4DC0, 9FFF) ||
-            // 彝文音节 https://www.unicode.org/charts/PDF/UA000.pdf
-            // 彝文部首 https://www.unicode.org/charts/PDF/UA490.pdf
-            BETWEEN(A000, A4C6) ||
-            // 韩文拼音 https://www.unicode.org/charts/PDF/UAC00.pdf
-            BETWEEN(AC00, D7AF) ||
-            // 中文竖版标点 https://www.unicode.org/charts/PDF/UFE10.pdf
-            BETWEEN(FE10, FE19) ||
-            // CJK 兼容符号 https://www.unicode.org/charts/PDF/UFE30.pdf
-            BETWEEN(FE30, FE4F) ||
-            // 半角的全角版本 https://www.unicode.org/charts/PDF/UFF00.pdf
-            BETWEEN(FF01, FF5E) ||
-            // 太玄经符号 https://www.unicode.org/charts/PDF/U1D300.pdf
-            BETWEEN(1D300, 1D356);
+    return
+        // 韩文字母 https://www.unicode.org/charts/PDF/U1100.pdf
+        BETWEEN(1100, 11FF) ||
+        // 盲文符号 https://www.unicode.org/charts/PDF/U2800.pdf
+        BETWEEN(2800, 28FF) ||
+        // CJK 偏旁部首 https://www.unicode.org/charts/PDF/U2E80.pdf
+        // 康熙部首     https://www.unicode.org/charts/PDF/U2F00.pdf
+        BETWEEN(2E80, 2FDF) ||
+        // 汉字结构描述 https://www.unicode.org/charts/PDF/U2FF0.pdf
+        // CJK 标点   http://www.unicode.org/charts/PDF/U3000.pdf
+        // 平假       https://www.unicode.org/charts/PDF/U3040.pdf
+        // 片假       https://www.unicode.org/charts/PDF/U30A0.pdf
+        // 汉字注音符号 https://www.unicode.org/charts/PDF/U3100.pdf
+        // 韩文兼容字母 https://www.unicode.org/charts/PDF/U3130.pdf
+        BETWEEN(2FF0, 318E) ||
+        // 汉字注音符号扩展 https://www.unicode.org/charts/PDF/U31A0.pdf
+        // CJK 笔画      http://www.unicode.org/charts/PDF/U31C0.pdf
+        // 日文片假扩展    https://www.unicode.org/charts/PDF/U31F0.pdf
+        // CJK 字母月份   https://www.unicode.org/charts/PDF/U3200.pdf
+        // 特殊符号       https://www.unicode.org/charts/PDF/U3300.pdf
+        // CJK 拓展A     https://www.unicode.org/charts/PDF/U3400.pdf
+        // 易经符号 https://www.unicode.org/charts/PDF/U4DC0.pdf
+        // CJK https://www.unicode.org/charts/PDF/U4E00.pdf
+        BETWEEN(31A0, 9FFF) ||
+        // 彝文音节 https://www.unicode.org/charts/PDF/UA000.pdf
+        // 彝文部首 https://www.unicode.org/charts/PDF/UA490.pdf
+        BETWEEN(A000, A4C6) ||
+        // 韩文拼音 https://www.unicode.org/charts/PDF/UAC00.pdf
+        BETWEEN(AC00, D7AF) ||
+        // CJK 兼容 https://www.unicode.org/charts/PDF/UF900.pdf
+        BETWEEN(F900, FAD9) ||
+        // 中文竖版标点 https://www.unicode.org/charts/PDF/UFE10.pdf
+        BETWEEN(FE10, FE19) ||
+        // CJK 兼容符号 https://www.unicode.org/charts/PDF/UFE30.pdf
+        BETWEEN(FE30, FE4F) ||
+        // 半角的全角版本 https://www.unicode.org/charts/PDF/UFF00.pdf
+        BETWEEN(FF01, FF5E) ||
+        // 太玄经符号 https://www.unicode.org/charts/PDF/U1D300.pdf
+        BETWEEN(1D300, 1D356) ||
+        // CJK 拓展-B https://www.unicode.org/charts/PDF/U20000.pdf
+        BETWEEN(20000, 2A6DF) ||
+        // CJK 拓展-C https://www.unicode.org/charts/PDF/U2A700.pdf
+        // CJK 拓展-D https://www.unicode.org/charts/PDF/U2B740.pdf
+        // CJK 拓展-E https://www.unicode.org/charts/PDF/U2B820.pdf
+        BETWEEN(2A700, 2CEA1) ||
+        // CJK 拓展-F https://www.unicode.org/charts/PDF/U2CEB0.pdf
+        BETWEEN(2CEB0, 2EBE0) ||
+        // CJK 补充   https://www.unicode.org/charts/PDF/U2F800.pdf
+        BETWEEN(2F800, 2FA1D) ||
+        // CJK 拓展-G https://www.unicode.org/charts/PDF/U30000.pdf
+        // CJK 拓展-H https://www.unicode.org/charts/PDF/U31350.pdf
+        BETWEEN(30000, 323AF);
+}
+
+int tu_is_emoji(char32_t c) {
+    return BETWEEN(1F000, 1FBF9);
 }
 
 #undef BETWEEN

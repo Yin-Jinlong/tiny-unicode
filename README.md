@@ -10,8 +10,8 @@
 ![GitHub Repo stars](https://img.shields.io/github/stars/Yin-Jinlong/tiny-unicode)
 
 [//]: # (统计)
-![Total Lines](https://img.shields.io/badge/total_lines-745-9a9a9a)
-![Source Lines](https://img.shields.io/badge/source_lines-249-9a9a9a)
+![Total Lines](https://img.shields.io/badge/total_lines-1,086-9a9a9a)
+![Source Lines](https://img.shields.io/badge/source_lines-251-9a9a9a)
 
 [//]: # (活动)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/Yin-Jinlong/tiny-unicode)
@@ -24,6 +24,8 @@
 
 此仓库是[color-shell](https://github.com/Yin-Jinlong/color-shell.git)的一个外置依赖库
 
+[Unicode范围](Unicode.md)
+
 ## 构建
 
 目标`tiny-unicode`，生成静态库
@@ -31,9 +33,10 @@
 ## 支持
 
 - 判断全宽字符
+- 判断Emoji
 
 - `UTF-8`->
-  - `UTF-32`(BE)
+    - `UTF-32`(BE)
 
 - `UTF-32`(BE)->
-  - `UTF-8`
+    - `UTF-8`

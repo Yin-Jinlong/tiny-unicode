@@ -21,11 +21,20 @@ extern "C" {
 #endif
 
 /**
-* 判断是否是全角字符
-* @param c UTF-32字符
-* @return 是否是全角字符
+ * 判断是否是全角字符，不同字体终端显示可能不同
+ *
+ * @param c UTF-32字符
+ * @return 是否是全角字符
 */
 TINY_UNICODE_DLL_OUT int tu_is_full_width_char(char32_t c);
+
+/**
+ * 判断是否在Emoji符号范围内
+ *
+ * @param c 字符
+ * @return 是否是Emoji符号
+ */
+TINY_UNICODE_DLL_OUT int tu_is_emoji(char32_t c);
 
 ///**
 // * 判断是否是空白字符
